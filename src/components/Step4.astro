@@ -1,0 +1,132 @@
+<div data-step-content class='hidden flex-col w-1/2 justify-center m-5'>
+  <h1 class='text-5xl pt-8 text-marine-blue font-bold'>Finishing up</h1>
+  <p class='text-cool-gray pb-5'>
+    Double-check everything looks OK before confirming.
+  </p>
+  <div
+    id='summary'
+    class='flex flex-col justify-between items-start bg-pastel-blue p-10'
+  >
+    <h1 id='plan' class='inline-flex justify-between items-center w-full'></h1>
+    <div class=''></div>
+    <div id='add-ons' class='w-full flex flex-col flex-wrap'>
+      <div class='inline-flex justify-between text-cool-gray'></div>
+      <div class='inline-flex justify-between text-cool-gray'></div>
+      <div class='inline-flex justify-between text-cool-gray'></div>
+    </div>
+  </div>
+
+  <div
+    id='total-price'
+    class='inline-block justify-between items-center w-full'
+  >
+  </div>
+  <div class='flex justify-between pt-10'>
+    <button data-step-back type='button' class='text-cool-gray'>Go back</button>
+    <button
+      type='button'
+      class='bg-marine-blue text-white px-6 py-3 rounded-md font-bold'
+    >
+      Confirm</button
+    >
+  </div>
+</div>
+
+<script>
+  import {
+    plan,
+    subscription,
+    addOns,
+    monthlyPricesPlans,
+    yearlyPricesPlans,
+    monthlyPricesAddOns,
+    yearlyPricesAddOns,
+  } from "../../stores";
+
+  let total = 0;
+
+  const planHeader = document.querySelector("#plan")!;
+  const addOnsContainer = document.querySelector("#add-ons")!;
+  const totalPriceContainer = document.querySelector("#total-price")!;
+
+  const capitalizeString = (text: string) => {
+    return text.charAt(0).toUpperCase() + text.slice(1);
+  };
+
+  const renderHeader = () => {
+    const planValue = capitalizeString(plan.get());
+    const subscriptionValue = capitalizeString(subscription.get());
+    let obj =
+      subscription.get() === "monthly" ? monthlyPricesPlans : yearlyPricesPlans;
+
+    planHeader.innerHTML = `<span>${planValue} (${subscriptionValue})</span> 
+    <span>$${obj[plan.get()]}/${
+      subscription.get() === "monthly" ? "mo" : "yr"
+    }</span>`;
+  };
+
+  const renderAddOns = () => {
+    addOns.get().forEach((item, idx) => {
+      const addOnsElements = addOnsContainer.querySelectorAll("div");
+      if (item) {
+        let obj =
+          subscription.get() === "monthly"
+            ? monthlyPricesAddOns
+            : yearlyPricesAddOns;
+
+        addOnsElements[idx].innerHTML = `<span>${obj[idx][0]}<span> <span>+$${
+          obj[idx][1]
+        }/${subscription.get() === "monthly" ? "mo" : "yr"}<span>`;
+      } else {
+        addOnsElements[idx].innerHTML = "";
+      }
+    });
+  };
+
+  const countTotalPrice = () => {
+    const subscriptionDuration = subscription.get();
+    const planArray =
+      subscriptionDuration === "monthly"
+        ? monthlyPricesPlans
+        : yearlyPricesPlans;
+    const addOnsArray =
+      subscriptionDuration === "monthly"
+        ? monthlyPricesAddOns
+        : yearlyPricesAddOns;
+
+    let totalprice = planArray[plan.get()];
+    addOns.get().forEach((item, idx) => {
+      if (item) {
+        let p = addOnsArray[idx][1] as number;
+        totalprice += p;
+      }
+    });
+    return totalprice;
+  };
+
+  const renderTotalPrice = () => {
+    const totalPrice = countTotalPrice();
+    totalPriceContainer.innerHTML = `
+      <span>Total (per ${
+        subscription.get() === "monthly" ? "month" : "year"
+      })</span>
+      <span>$${totalPrice}/${
+        subscription.get() === "monthly" ? "mo" : "yr"
+      }</span>
+    `;
+  };
+
+  plan.listen(renderHeader);
+  plan.listen(renderTotalPrice);
+
+  subscription.listen(renderHeader);
+  subscription.listen(renderAddOns);
+  subscription.listen(renderTotalPrice);
+
+  addOns.listen(renderAddOns);
+  addOns.listen(renderTotalPrice);
+
+  renderAddOns();
+  renderHeader();
+  renderTotalPrice();
+</script>
