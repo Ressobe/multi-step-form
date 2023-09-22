@@ -1,4 +1,7 @@
-export default function Step1() {
+import useForm from "../hooks/useForm";
+
+export default function Step1() { 
+  const {values, handleChange, handleSubmit } = useForm();
   console.log("Step 1");
   return (
     <form data-step-content className='flex flex-col justify-evenly m-5'>
