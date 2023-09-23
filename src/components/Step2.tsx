@@ -1,8 +1,37 @@
+import { useEffect, useState } from "react";
+import { plan, subscription } from "../../stores";
+
+type PlanType = "arcade" | "advanced" | "pro";
+type SubscriptionDurationType = "monthly" | "yearly";
+
 export default function Step2() {
-  console.log("Step 2");
+  const [currentPlan, setCurrentPlan] = useState<PlanType>("arcade");
+  const [subscriptionDuration, setSubscriptionDuration] =
+    useState<SubscriptionDurationType>("monthly");
+
+  useEffect(() => {
+    setCurrentPlan(plan.get());
+    setSubscriptionDuration(subscription.get());
+  }, []);
+
+  useEffect(() => {
+    plan.set(currentPlan);
+  }, [currentPlan]);
+
+  useEffect(() => {
+    subscription.set(subscriptionDuration);
+  }, [subscriptionDuration]);
+
+  const switchSubscription = () => {
+    if (subscriptionDuration === "monthly") {
+      setSubscriptionDuration("yearly");
+    } else {
+      setSubscriptionDuration("monthly");
+    }
+  };
 
   return (
-    <div className='hidden flex-col w-1/2 justify-evenly m-5'>
+    <>
       <h1 className='text-5xl pt-8 text-marine-blue font-bold'>
         Select your plan
       </h1>
@@ -11,7 +40,14 @@ export default function Step2() {
       </p>
 
       <div className='grid grid-cols-3 gap-5 pb-5'>
-        <button className='border py-4 pl-4 pr-20 inline-flex flex-col justify-between gap-16 rounded-lg focus:border-purplish-blue focus:bg-pastel-blue hover:border-purplish-blue'>
+        <button
+          onClick={() => setCurrentPlan("arcade")}
+          className={`border ${
+            currentPlan === "arcade"
+              ? "border-purplish-blue bg-pastel-blue"
+              : ""
+          } py-4 pl-4 pr-20 inline-flex flex-col justify-between gap-16 rounded-lg  hover:border-purplish-blue`}
+        >
           <img src='assets/images/icon-arcade.svg' className='w-12' />
 
           <div className='text-left'>
@@ -21,7 +57,14 @@ export default function Step2() {
           </div>
         </button>
 
-        <button className='border py-4 pl-4 pr-20 inline-flex flex-col justify-between gap-16 rounded-lg focus:border-purplish-blue focus:bg-pastel-blue hover:border-purplish-blue'>
+        <button
+          onClick={() => setCurrentPlan("advanced")}
+          className={`border ${
+            currentPlan === "advanced"
+              ? "border-purplish-blue bg-pastel-blue"
+              : ""
+          }  py-4 pl-4 pr-20 inline-flex flex-col justify-between gap-16 rounded-lg focus:border-purplish-blue focus:bg-pastel-blue hover:border-purplish-blue `}
+        >
           <img src='assets/images/icon-advanced.svg' className='w-12' />
 
           <div className='text-left flex flex-col'>
@@ -31,7 +74,12 @@ export default function Step2() {
           </div>
         </button>
 
-        <button className='border py-4 pl-4 pr-20 inline-flex flex-col justify-between gap-16 rounded-lg focus: hover:border-purplish-blue'>
+        <button
+          onClick={() => setCurrentPlan("pro")}
+          className={`border ${
+            currentPlan === "pro" ? "border-purplish-blue bg-pastel-blue" : ""
+          } py-4 pl-4 pr-20 inline-flex flex-col justify-between gap-16 rounded-lg focus:border-purplish-blue focus:bg-pastel-blue hover:border-purplish-blue`}
+        >
           <img src='assets/images/icon-pro.svg' className='w-12' />
 
           <div className='text-left'>
@@ -43,39 +91,37 @@ export default function Step2() {
       </div>
 
       <div className='flex justify-center items-center gap-6 bg-light-blue py-2'>
-        <span className='text-marine-blue transition-colors'>Monthly</span>
-        <button id='switch-button'>
+        <span
+          className={`${
+            subscriptionDuration === "monthly"
+              ? "text-marine-blue"
+              : "text-cool-gray"
+          } transition-colors `}
+        >
+          Monthly
+        </span>
+        <button onClick={switchSubscription} id='switch-button'>
           <svg
             xmlns='http://www.w3.org/2000/svg'
             height='3em'
             viewBox='0 0 576 512'
-            className='rotate-180'
+            className={`${
+              subscriptionDuration === "monthly" ? "rotate-180" : ""
+            } `}
           >
-            {" "}
             <path d='M192 64C86 64 0 150 0 256S86 448 192 448H384c106 0 192-86 192-192s-86-192-192-192H192zm192 96a96 96 0 1 1 0 192 96 96 0 1 1 0-192z'></path>
           </svg>
         </button>
         <span
-          data-plan-duration='yearly'
-          className='text-cool-gray transition-colors'
+          className={`${
+            subscriptionDuration === "yearly"
+              ? "text-marine-blue"
+              : "text-cool-gray"
+          } transition-colors `}
         >
           Yearly
         </span>
       </div>
-
-      <div className='flex justify-between pt-5'>
-        <button type='button' className='text-cool-gray'>
-          Go back
-        </button>
-        <button
-          id='next'
-          type='button'
-          className='bg-marine-blue text-white px-6 py-3 rounded-md font-bold'
-          data-step-next='step-2'
-        >
-          Next Step
-        </button>
-      </div>
-    </div>
+    </>
   );
 }

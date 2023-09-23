@@ -1,8 +1,13 @@
 import { atom } from "nanostores";
 
-export const activeIndex = atom(0);
+type PlanType = "arcade" | "advanced" | "pro";
+
 export const subscription = atom<"monthly" | "yearly">("monthly");
-export const plan = atom<"arcade" | "advanced" | "pro">("arcade");
+export const plan = atom<PlanType>("arcade");
+
+export const setPlan = (planType: PlanType) => {
+  plan.set(planType);
+};
 
 export const addOns = atom([false, false, false]);
 
