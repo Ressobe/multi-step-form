@@ -52,18 +52,3 @@
     font-family: "Ubuntu";
   }
 </style>
-
-<script>
-  import { activeIndex } from "../../stores";
-  import { previousStep, render } from "../script";
-
-  render(activeIndex.get());
-
-  const backButtons = document.querySelectorAll("[data-step-back]");
-
-  backButtons.forEach((button) => {
-    button.addEventListener("click", () => {
-      previousStep();
-    });
-  });
-</script>
