@@ -1,4 +1,4 @@
-export default function Step4() {
+export default function Summary() {
   return (
     <>
       <h1 className='text-5xl pt-8 text-marine-blue font-bold'>Finishing up</h1>

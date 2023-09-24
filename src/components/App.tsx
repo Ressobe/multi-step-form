@@ -1,14 +1,14 @@
 import { useMultistepForm } from "../hooks/useMultiStepForm";
 
-import Step1 from "./Step1";
-import Step2 from "./Step2";
-import Step3 from "./Step3";
-import Step4 from "./Step4";
 import Sidebar from "./Sidebar";
+import SelectPlan from "./SelectPlan";
+import YourInfo from "./YourInfo";
+import AddOns from "./AddOns";
+import Summary from "./Summary";
 
 export default function App() {
-  const { steps, currentStepIndex, step, isFirstStep, isLastStep, back, next } =
-    useMultistepForm([<Step1 />, <Step2 />, <Step3 />, <Step4 />]);
+  const { currentStepIndex, step, isFirstStep, isLastStep, back, next } =
+    useMultistepForm([<YourInfo />, <SelectPlan />, <AddOns />, <Summary />]);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -32,7 +32,7 @@ export default function App() {
             <div></div>
           )}
 
-          {!isLastStep  ? (
+          {!isLastStep ? (
             <button
               id='next'
               type='button'

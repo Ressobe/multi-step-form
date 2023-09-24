@@ -6,15 +6,13 @@ const defaultFormFields = {
   phone: "",
 };
 
-export default function Step1() {
+export default function YourInfo() {
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { name, email, phone } = formFields;
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setFormFields({ ...formFields, [name]: value });
-
-
   };
 
   const nameErrorRef = useRef(null);

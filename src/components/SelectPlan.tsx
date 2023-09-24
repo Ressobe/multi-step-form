@@ -1,13 +1,25 @@
-import { useEffect, useState } from "react";
-import { plan, subscription } from "../../stores";
+import { useEffect, useMemo, useState } from "react";
+import {
+  plan,
+  subscription,
+  monthlyPricesPlans,
+  yearlyPricesPlans,
+} from "../../stores";
 
 type PlanType = "arcade" | "advanced" | "pro";
 type SubscriptionDurationType = "monthly" | "yearly";
 
-export default function Step2() {
+export default function SelectPlan() {
   const [currentPlan, setCurrentPlan] = useState<PlanType>("arcade");
   const [subscriptionDuration, setSubscriptionDuration] =
     useState<SubscriptionDurationType>("monthly");
+
+  const [prices, setPrices] = useState(monthlyPricesPlans);
+
+  const durationNotation = useMemo(
+    () => (subscriptionDuration === "monthly" ? "mo" : "yr"),
+    [subscriptionDuration]
+  );
 
   useEffect(() => {
     setCurrentPlan(plan.get());
@@ -19,6 +31,12 @@ export default function Step2() {
   }, [currentPlan]);
 
   useEffect(() => {
+    if (subscriptionDuration === "monthly") {
+      setPrices(monthlyPricesPlans);
+    } else {
+      setPrices(yearlyPricesPlans);
+    }
+
     subscription.set(subscriptionDuration);
   }, [subscriptionDuration]);
 
@@ -52,8 +70,12 @@ export default function Step2() {
 
           <div className='text-left'>
             <h2 className='text-marine-blue font-bold text-xl'>Arcade</h2>
-            <p className='text-md text-cool-gray'>$9/mo</p>
-            <p className='pt-2 text-marine-blue text-sm'></p>
+            <p className='text-md text-cool-gray'>
+              ${prices["arcade"]}/{durationNotation}
+            </p>
+            {subscriptionDuration === "yearly" && (
+              <p className='pt-2 text-marine-blue text-sm'>2 months free</p>
+            )}
           </div>
         </button>
 
@@ -69,8 +91,10 @@ export default function Step2() {
 
           <div className='text-left flex flex-col'>
             <h2 className='text-marine-blue font-bold text-xl'>Advanced</h2>
-            <p className='text-md text-cool-gray'>$12/mo</p>
-            <p className='pt-2 text-marine-blue text-sm'></p>
+            <p className='text-md text-cool-gray'>${prices["advanced"]}/</p>
+            {subscriptionDuration === "yearly" && (
+              <p className='pt-2 text-marine-blue text-sm'>2 months free</p>
+            )}
           </div>
         </button>
 
@@ -84,8 +108,13 @@ export default function Step2() {
 
           <div className='text-left'>
             <h2 className='text-marine-blue font-bold text-xl'>Pro</h2>
-            <p className='text-md text-cool-gray'>$15/mo</p>
-            <p className='pt-2 text-marine-blue text-sm'></p>
+            <p className='text-md text-cool-gray'>
+              ${prices["pro"]}/
+              {subscriptionDuration === "monthly" ? "mo" : "yr"}
+            </p>
+            {subscriptionDuration === "yearly" && (
+              <p className='pt-2 text-marine-blue text-sm'>2 months free</p>
+            )}
           </div>
         </button>
       </div>

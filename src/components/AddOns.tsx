@@ -1,8 +1,18 @@
-import { useEffect, useRef, useState } from "react";
-import { addOns } from "../../stores";
+import { useEffect, useState } from "react";
+import {
+  addOns,
+  subscription,
+  monthlyPricesAddOns,
+  yearlyPricesAddOns,
+} from "../../stores";
 
-export default function Step3() {
+export default function AddOns() {
   const [currentAddOns, setCurrentAddOns] = useState([false, false, false]);
+
+  const prices =
+    subscription.get() === "monthly" ? monthlyPricesAddOns : yearlyPricesAddOns;
+
+  const durationNotation = subscription.get() === "monthly" ? "mo" : "yr";
 
   const handleClick = (index: number) => {
     const newAddOns = [...currentAddOns];
@@ -47,7 +57,9 @@ export default function Step3() {
             <h2 className='text-xl text-marine-blue'>Online service</h2>
             <p className='text-cool-gray'>Access to multiplayer games</p>
           </div>
-          <div className='text-purplish-blue'>+$1/mo</div>
+          <div className='text-purplish-blue'>
+            +${prices[0][1]}/{durationNotation}
+          </div>
         </button>
         <button
           onClick={() => handleClick(1)}
@@ -65,7 +77,9 @@ export default function Step3() {
             <h2 className='text-xl text-marine-blue'>Larger storage</h2>
             <p className='text-cool-gray'>Extra 1TB of cloud save</p>
           </div>
-          <div className='text-purplish-blue'>+$2/mo</div>
+          <div className='text-purplish-blue'>
+            +${prices[1][1]}/{durationNotation}
+          </div>
         </button>
 
         <button
@@ -84,7 +98,9 @@ export default function Step3() {
             <h2 className='text-xl text-marine-blue'>Customizable Profile</h2>
             <p className='text-cool-gray'>Custom theme on your profile</p>
           </div>
-          <div className='text-purplish-blue'>+$2/mo</div>
+          <div className='text-purplish-blue'>
+            +${prices[2][1]}/{durationNotation}
+          </div>
         </button>
       </div>
     </>
