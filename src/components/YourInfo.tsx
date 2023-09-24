@@ -1,4 +1,5 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { formFieldsStore } from "../../stores";
 
 const defaultFormFields = {
   name: "",
@@ -6,20 +7,56 @@ const defaultFormFields = {
   phone: "",
 };
 
-export default function YourInfo() {
+export default function YourInfo({ next }: { next: () => void }) {
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { name, email, phone } = formFields;
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    idx: number
+  ) => {
     const { name, value } = event.target;
+
+    removeErrorState(idx);
     setFormFields({ ...formFields, [name]: value });
+    formFieldsStore.set(formFields);
+    console.log(formFieldsStore.get());
   };
 
-  const nameErrorRef = useRef(null);
-  const emailErrorRef = useRef(null);
-  const phoneErrorRef = useRef(null);
+  const inputsRefs = [
+    useRef<HTMLInputElement | null>(null),
+    useRef<HTMLInputElement | null>(null),
+    useRef<HTMLInputElement | null>(null),
+  ];
 
-  const handleSubmit = () => {};
+  const removeErrorState = (idx: number) => {
+    if (!inputsRefs[idx].current?.classList.contains("border-red-600")) return;
+
+    const spanErrors = document.querySelectorAll(".text-red-600");
+    spanErrors[idx].innerHTML = "";
+    inputsRefs[idx].current?.classList.remove("border-red-600");
+  };
+
+  const handleSubmit = () => {
+    let isError = false;
+    const spanErrors = document.querySelectorAll(".text-red-600");
+
+    [name, email, phone].forEach((item, idx) => {
+      if (item.length === 0) {
+        spanErrors[idx].innerHTML = "This field is required";
+        inputsRefs[idx].current?.classList.add("border-red-600");
+        isError = true;
+      }
+    });
+
+    if (isError) return;
+
+    next();
+  };
+
+  useEffect(() => {
+    setFormFields(formFieldsStore.get());
+  }, []);
 
   return (
     <>
@@ -43,8 +80,9 @@ export default function YourInfo() {
           type='text'
           placeholder='e.g. Stephen King'
           name='name'
-          onChange={handleChange}
+          onChange={(e) => handleChange(e, 0)}
           value={name}
+          ref={inputsRefs[0]}
           id='name'
           required
         />
@@ -63,8 +101,9 @@ export default function YourInfo() {
           type='email'
           placeholder='e.g. stephenking@lorem.com'
           name='email'
-          onChange={handleChange}
+          onChange={(e) => handleChange(e, 1)}
           value={email}
+          ref={inputsRefs[1]}
           id='email'
           required
         />
@@ -83,11 +122,23 @@ export default function YourInfo() {
           type='text'
           placeholder='e.g. +1 234 567 890'
           name='phone'
-          onChange={handleChange}
+          onChange={(e) => handleChange(e, 2)}
           value={phone}
+          ref={inputsRefs[2]}
           id='phone'
           required
         />
+      </div>
+      <div className='flex  justify-between pt-5'>
+        <div></div>
+        <button
+          id='next'
+          type='button'
+          className='bg-marine-blue  text-white px-6 py-3 rounded-md font-bold'
+          onClick={handleSubmit}
+        >
+          Next Step
+        </button>
       </div>
     </>
   );
