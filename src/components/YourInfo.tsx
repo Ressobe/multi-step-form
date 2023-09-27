@@ -60,85 +60,60 @@ export default function YourInfo({ next }: { next: () => void }) {
 
   return (
     <>
-      <h1 className='text-5xl pt-10 text-marine-blue font-bold'>
-        Personal info
-      </h1>
-      <p className='text-cool-gray'>
+      <h1 className="text-2xl text-marine-blue font-bold">Personal info</h1>
+      <p className="text-cool-gray text-md font-thin">
         Please provide your name, email address, and phone number.
       </p>
-
-      <div className='flex flex-col'>
-        <label
-          className='text-marine-blue pb-2 inline-flex justify-between'
-          htmlFor='name'
-        >
-          <span>Name</span>
-          <span className='text-red-600' data-input-error='email'></span>
+      <div className="flex flex-col">
+        <label htmlFor="name">
+          <span className="text-marine-blue font-thin">Name</span>
+          <span className="text-red-600" data-input-error="email"></span>
         </label>
         <input
-          className='border p-2.5 rounded-md outline-none focus:border-purplish-blue'
-          type='text'
-          placeholder='e.g. Stephen King'
-          name='name'
+          type="text"
+          placeholder="e.g. Stephen King"
+          className="outline-none border py-1 px-2 rounded-sm focus:border-purplish-blue"
+          name="name"
           onChange={(e) => handleChange(e, 0)}
           value={name}
           ref={inputsRefs[0]}
-          id='name'
+          id="name"
           required
         />
       </div>
-
-      <div className='flex flex-col'>
-        <label
-          className='text-marine-blue pb-2 inline-flex justify-between'
-          htmlFor='email'
-        >
-          <span>Email Address</span>
-          <span className='text-red-600' data-input-error='email'></span>
+      <div className="flex flex-col">
+        <label htmlFor="email">
+          <span className="text-marine-blue font-thin">Email Address</span>
+          <span className="text-red-600" data-input-error="email"></span>
         </label>
         <input
-          className='border p-2.5 rounded-md outline-none focus:border-purplish-blue'
-          type='email'
-          placeholder='e.g. stephenking@lorem.com'
-          name='email'
+          type="email"
+          placeholder="e.g. stephenking@lorem.com"
+          className="outline-none border py-1 px-2 rounded-sm focus:border-purplish-blue"
+          name="email"
           onChange={(e) => handleChange(e, 1)}
           value={email}
           ref={inputsRefs[1]}
-          id='email'
+          id="email"
           required
         />
       </div>
-
-      <div className='flex flex-col'>
-        <label
-          className='text-marine-blue pb-2 inline-flex justify-between'
-          htmlFor='phone'
-        >
-          <span>Phone Number</span>
-          <span className='text-red-600'></span>
+      <div className="flex flex-col">
+        <label htmlFor="phone">
+          <span className="text-marine-blue font-thin">Phone Number</span>
+          <span className="text-red-600"></span>
         </label>
         <input
-          className='border p-2.5 rounded-md outline-none focus:border-purplish-blue'
-          type='text'
-          placeholder='e.g. +1 234 567 890'
-          name='phone'
+          type="text"
+          placeholder="e.g. +1 234 567 890"
+          className="outline-none border py-1 px-2 rounded-sm focus:border-purplish-blue"
+          name="phone"
           onChange={(e) => handleChange(e, 2)}
           value={phone}
           ref={inputsRefs[2]}
-          id='phone'
+          id="phone"
           required
         />
-      </div>
-      <div className='flex  justify-between pt-5'>
-        <div></div>
-        <button
-          id='next'
-          type='button'
-          className='bg-marine-blue  text-white px-6 py-3 rounded-md font-bold'
-          onClick={handleSubmit}
-        >
-          Next Step
-        </button>
       </div>
     </>
   );

@@ -15,7 +15,7 @@ export const formFieldsStore = atom({
   phone: "",
 });
 
-export const addOns = atom([false, false, false]);
+export const addOns = atom(new Array(3).fill(false));
 
 export const monthlyPricesPlans = {
   arcade: 9,
@@ -39,6 +39,21 @@ export const yearlyPricesAddOns: [string, number][] = [
   ["Online Service", 10],
   ["Larger Storage", 20],
   ["Customizable Profile", 20],
+];
+
+export const addOnsContent = [
+  {
+    title: "Online Service",
+    description: "Access to multiplayer games",
+  },
+  {
+    title: "Larger Storage",
+    description: "Extra 1TB of cloud save",
+  },
+  {
+    title: "Customizable Profile",
+    description: "Custom theme on your profile",
+  },
 ];
 
 export const getTotalPrice = () => {

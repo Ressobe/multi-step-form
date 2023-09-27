@@ -29,42 +29,13 @@ export default function App() {
     <Message />,
   ]);
 
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-  };
-
   return (
     <>
       <Sidebar activeIndex={currentStepIndex} />
-      <form
-        onSubmit={handleSubmit}
-        className={`flex w-1/2 flex-col ${
-          isLastStep ? "justify-center items-center" : "justify-evenly"
-        }   m-5`}
-      >
+      <main className="z-10 absolute  h-fit inset-0 top-24 bg-white mx-4 p-6 rounded-md flex flex-col gap-6 shadow-lg ">
         {step}
-
-        <div className='flex justify-between pt-5'>
-          {!isLastStep && !isBeforeMessage && !isFirstStep ? (
-            <button type='button' className='text-cool-gray' onClick={back}>
-              Go back
-            </button>
-          ) : (
-            <div></div>
-          )}
-
-          {!isLastStep && !isBeforeMessage && !isFirstStep ? (
-            <button
-              id='next'
-              type='button'
-              className='bg-marine-blue  text-white px-6 py-3 rounded-md font-bold'
-              onClick={next}
-            >
-              Next Step
-            </button>
-          ) : null}
-        </div>
-      </form>
+      </main>
+      <div className="absolute bottom-0">AAA</div>
     </>
   );
 }
