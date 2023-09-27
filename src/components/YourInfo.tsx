@@ -7,7 +7,7 @@ const defaultFormFields = {
   phone: "",
 };
 
-export default function YourInfo({ next }: { next: () => void }) {
+export default function YourInfo() {
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { name, email, phone } = formFields;
 
@@ -37,22 +37,20 @@ export default function YourInfo({ next }: { next: () => void }) {
     inputsRefs[idx].current?.classList.remove("border-red-600");
   };
 
-  const handleSubmit = () => {
-    let isError = false;
-    const spanErrors = document.querySelectorAll(".text-red-600");
-
-    [name, email, phone].forEach((item, idx) => {
-      if (item.length === 0) {
-        spanErrors[idx].innerHTML = "This field is required";
-        inputsRefs[idx].current?.classList.add("border-red-600");
-        isError = true;
-      }
-    });
-
-    if (isError) return;
-
-    next();
-  };
+  // const handleSubmit = (e: React.FormEvent) => {
+  //   let isError = false;
+  //   const spanErrors = document.querySelectorAll(".text-red-600");
+  //
+  //   [name, email, phone].forEach((item, idx) => {
+  //     if (item.length === 0) {
+  //       spanErrors[idx].innerHTML = "This field is required";
+  //       inputsRefs[idx].current?.classList.add("border-red-600");
+  //       isError = true;
+  //     }
+  //   });
+  //
+  //   return isError;
+  // };
 
   useEffect(() => {
     setFormFields(formFieldsStore.get());
