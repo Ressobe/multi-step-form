@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import {
   addOns,
+  addOnsContent,
   subscription,
   monthlyPricesAddOns,
   yearlyPricesAddOns,
@@ -35,73 +36,39 @@ export default function AddOns() {
 
   return (
     <>
-      <h1 className='text-5xl pt-8 text-marine-blue font-bold'>Pick add-ons</h1>
-      <p className='pt-4 pb-8 text-cool-gray'>
+      <h1 className="text-2xl text-marine-blue font-bold">Pick add-ons</h1>
+      <p className="text-cool-gray text-md font-thin">
         Add-ons help enhance your gaming experience.
       </p>
 
-      <div className='grid grid-rows-3 gap-8'>
-        <button
-          onClick={() => handleClick(0)}
-          className={`flex w-full justify-between text-left items-center p-5 border hover:border-purplish-blue ${
-            currentAddOns[0] ? "border-purplish-blue" : ""
-          } rounded-lg`}
-        >
-          <input
-            checked={currentAddOns[0]}
-            onClick={inputPrevent}
-            type='checkbox'
-            className='h-6 w-6'
-          />
-          <div className='w-full pl-6 pr-20'>
-            <h2 className='text-xl text-marine-blue'>Online service</h2>
-            <p className='text-cool-gray'>Access to multiplayer games</p>
-          </div>
-          <div className='text-purplish-blue'>
-            +${prices[0][1]}/{durationNotation}
-          </div>
-        </button>
-        <button
-          onClick={() => handleClick(1)}
-          className={`flex w-full justify-between text-left items-center p-5 border hover:border-purplish-blue ${
-            currentAddOns[1] ? "border-purplish-blue" : ""
-          } rounded-lg`}
-        >
-          <input
-            onClick={inputPrevent}
-            checked={currentAddOns[1]}
-            type='checkbox'
-            className='h-6 w-6'
-          />
-          <div className='w-full pl-6 pr-20'>
-            <h2 className='text-xl text-marine-blue'>Larger storage</h2>
-            <p className='text-cool-gray'>Extra 1TB of cloud save</p>
-          </div>
-          <div className='text-purplish-blue'>
-            +${prices[1][1]}/{durationNotation}
-          </div>
-        </button>
-
-        <button
-          onClick={() => handleClick(2)}
-          className={`flex w-full justify-between items-center text-left p-5 border hover:border-purplish-blue ${
-            currentAddOns[2] ? "border-purplish-blue" : ""
-          } rounded-lg`}
-        >
-          <input
-            onClick={inputPrevent}
-            checked={currentAddOns[2]}
-            type='checkbox'
-            className='h-6 w-6'
-          />
-          <div className='w-full pl-6 pr-20'>
-            <h2 className='text-xl text-marine-blue'>Customizable Profile</h2>
-            <p className='text-cool-gray'>Custom theme on your profile</p>
-          </div>
-          <div className='text-purplish-blue'>
-            +${prices[2][1]}/{durationNotation}
-          </div>
-        </button>
+      <div className="grid font-thin grid-rows-3 gap-2">
+        {addOnsContent.map(({ title, description }, idx) => {
+          return (
+            <button
+              key={idx}
+              onClick={() => handleClick(idx)}
+              className={`flex justify-between text-left items-center py-2 px-3  border hover:border-purplish-blue ${
+                currentAddOns[idx] ? "border-purplish-blue" : ""
+              } rounded-lg`}
+            >
+              <div className="flex items-center gap-4">
+                <input
+                  checked={currentAddOns[idx]}
+                  onClick={inputPrevent}
+                  type="checkbox"
+                  className="h-4 w-4"
+                />
+                <div>
+                  <h2 className="text-md text-marine-blue">{title}</h2>
+                  <p className="text-cool-gray text-xs">{description}</p>
+                </div>
+              </div>
+              <div className="text-purplish-blue text-sm">
+                +${prices[idx][1]}/{durationNotation}
+              </div>
+            </button>
+          );
+        })}
       </div>
     </>
   );
