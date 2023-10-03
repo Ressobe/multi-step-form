@@ -36,12 +36,16 @@ export default function AddOns() {
 
   return (
     <>
-      <h1 className="text-2xl text-marine-blue font-bold">Pick add-ons</h1>
-      <p className="text-cool-gray text-md font-thin">
-        Add-ons help enhance your gaming experience.
-      </p>
+      <div>
+        <h1 className="text-2xl lg:text-4xl text-marine-blue font-bold">
+          Pick add-ons
+        </h1>
+        <p className="text-cool-gray text-md font-thin pt-2">
+          Add-ons help enhance your gaming experience.
+        </p>
+      </div>
 
-      <div className="grid font-thin grid-rows-3 gap-2">
+      <div className="grid font-thin grid-rows-3 gap-6">
         {addOnsContent.map(({ title, description }, idx) => {
           return (
             <button

@@ -61,10 +61,14 @@ export default function SelectPlan() {
 
   return (
     <>
-      <h1 className="text-2xl text-marine-blue font-bold">Select your plan</h1>
-      <p className="text-cool-gray text-md font-thin">
-        You have the option of monthly or yearly billing.
-      </p>
+      <div>
+        <h1 className="text-2xl lg:text-4xl text-marine-blue font-bold">
+          Select your plan
+        </h1>
+        <p className="text-cool-gray text-md font-thin pt-2">
+          You have the option of monthly or yearly billing.
+        </p>
+      </div>
 
       <div className="grid grid-rows-3 gap-2">
         {["arcade", "advanced", "pro"].map((item, idx) => {

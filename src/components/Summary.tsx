@@ -15,12 +15,8 @@ const capitalize = (word: string) => {
 
 export default function Summary({
   goToSelectPlan,
-  goBack,
-  goNext,
 }: {
   goToSelectPlan: () => void;
-  goBack: () => void;
-  goNext: () => void;
 }) {
   const priceOfPlan =
     subscription.get() === "monthly"
@@ -34,10 +30,15 @@ export default function Summary({
 
   return (
     <>
-      <h1 className="text-2xl text-marine-blue font-bold">Finishing up</h1>
-      <p className="text-cool-gray text-md font-thin">
-        Double-check everything looks OK before confirming.
-      </p>
+      <div>
+        <h1 className="text-2xl lg:text-4xl text-marine-blue font-bold">
+          Finishing up
+        </h1>
+        <p className="text-cool-gray text-md font-thin pt-2">
+          Double-check everything looks OK before confirming.
+        </p>
+      </div>
+
       <div className="bg-pastel-blue rounded-lg p-4">
         <div className="flex justify-between w-full items-center ">
           <div>
