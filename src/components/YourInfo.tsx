@@ -1,4 +1,15 @@
-export default function YourInfo() {
+import { FormItems } from "../App";
+
+type StepProps = FormItems & {
+  updateForm: (item: Partial<FormItems>) => void;
+};
+
+export default function YourInfo({
+  name,
+  email,
+  phone,
+  updateForm,
+}: StepProps) {
   return (
     <>
       <div>
@@ -18,7 +29,10 @@ export default function YourInfo() {
           type="text"
           placeholder="e.g. Stephen King"
           className="outline-none border py-3 px-4 mt-2 rounded-md focus:border-purplish-blue"
+          onChange={(e) => updateForm({ name: e.target.value })}
+          value={name}
           name="name"
+          autoComplete="name"
           id="name"
           required
         />
@@ -32,7 +46,10 @@ export default function YourInfo() {
           type="email"
           placeholder="e.g. stephenking@lorem.com"
           className="outline-none border py-3 px-4 mt-2 rounded-md focus:border-purplish-blue"
+          onChange={(e) => updateForm({ email: e.target.value })}
+          value={email}
           name="email"
+          autoComplete="email"
           id="email"
           required
         />
@@ -43,10 +60,13 @@ export default function YourInfo() {
           <span className="text-red-600"></span>
         </label>
         <input
-          type="text"
+          type="tel"
           placeholder="e.g. +1 234 567 890"
           className="outline-none border py-3 px-4 mt-2 rounded-md focus:border-purplish-blue"
+          onChange={(e) => updateForm({ phone: e.target.value })}
+          value={phone}
           name="phone"
+          autoComplete="phone"
           id="phone"
           required
         />

@@ -1,8 +1,23 @@
+import { FormItems, planOptions, addOnsOptions } from "../App";
+
 const capitalize = (word: string) => {
   return word.charAt(0).toUpperCase() + word.slice(1);
 };
 
-export default function Summary() {
+type StepProps = FormItems & {
+  updateForm: (item: Partial<FormItems>) => void;
+  totalPrice: number;
+};
+
+export default function Summary({
+  planLength,
+  plan,
+  totalPrice,
+  addOns,
+  updateForm,
+}: StepProps) {
+  const durationNotation = planLength === "monthly" ? "mo" : "yr";
+
   return (
     <>
       <div>
@@ -21,43 +36,48 @@ export default function Summary() {
               id="plan"
               className="inline-flex justify-between items-center w-full text-marine-blue text-lg"
             >
-              {/* {capitalize(plan.get())} ({capitalize(subscription.get())}) */}
+              {capitalize(plan)} ({capitalize(planLength)})
             </h1>
             <button
               className="text-sm text-cool-gray underline underline-offset-1"
-              // onClick={goToSelectPlan}
+              onClick={() =>
+                updateForm({
+                  planLength: planLength === "monthly" ? "yearly" : "monthly",
+                })
+              }
             >
               Change
             </button>
           </div>
           <h2 className="text-marine-blue font-bold text-md">
-            {/* ${priceOfPlan}/{durationNotation} */}
+            ${planOptions[plan][planLength]}/{durationNotation}
           </h2>
         </div>
         <div className="my-4 w-full h-[1px] bg-cool-gray bg-opacity-30"></div>
 
-        {/* <div className="gap-3 flex flex-col w-full"> */}
-        {/*   {addOns.get().map((item, idx) => { */}
-        {/*     if (!item) return; */}
-        {/**/}
-        {/*     return ( */}
-        {/*       <div className="inline-flex justify-between" key={idx}> */}
-        {/*         <span className="text-cool-gray">{pricesOfAddOns[idx][0]}</span> */}
-        {/*         <span className="text-marine-blue"> */}
-        {/*           +${pricesOfAddOns[idx][1]}/{durationNotation} */}
-        {/*         </span> */}
-        {/*       </div> */}
-        {/*     ); */}
-        {/*   })} */}
-        {/* </div> */}
+        <div className="gap-3 flex flex-col w-full">
+          {addOns.map((item, idx) => {
+            if (!item) return;
+
+            return (
+              <div className="inline-flex justify-between" key={idx}>
+                <span className="text-cool-gray">
+                  {addOnsOptions[idx].title}
+                </span>
+                <span className="text-marine-blue">
+                  +${addOnsOptions[idx][planLength]}/{durationNotation}
+                </span>
+              </div>
+            );
+          })}
+        </div>
       </div>
       <div id="total-price" className="flex justify-between p-4">
         <span className="text-cool-gray">
-          Total (per{" "}
-          {/* {subscription.get().slice(0, subscription.get().length - 2)}) */}
+          Total (per {planLength === "monthly" ? "month" : "year"})
         </span>
         <span className="text-purplish-blue text-lg font-bold">
-          {/* +${getTotalPrice()}/{durationNotation} */}
+          +${totalPrice}/{durationNotation}
         </span>
       </div>
     </>
