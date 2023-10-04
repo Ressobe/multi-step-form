@@ -6,6 +6,7 @@ import AddOns from "./components/AddOns";
 import Summary from "./components/Summary";
 import Message from "./components/Message";
 import Sidebar from "./components/Sidebar";
+import StepButtons from "./components/StepButtons";
 
 export default function App() {
   const { currentStepIndex, step, isFirstStep, isLastStep, goTo, back, next } =
@@ -18,47 +19,34 @@ export default function App() {
     ]);
 
   return (
-    <div className="bg-light-blue lg:h-[100dvh] lg:flex justify-center items-center">
-      <div className="lg:flex flex-row  gap-20  lg:bg-white lg:shadow-lg  lg:h-3/4 w-[55%] lg:rounded-md lg:p-5 ">
+    <main className="bg-light-blue lg:h-[100dvh] lg:flex justify-center items-center">
+      <div className="lg:flex flex-row  gap-20  lg:bg-white lg:shadow-lg  lg:h-3/4  lg:w-[950px] lg:rounded-md lg:p-5 ">
         <Sidebar activeIndex={currentStepIndex} />
 
-        <main className="z-10 absolute inset-0 top-24 lg:static h-fit lg:h-full  bg-white lg:bg-none mx-4 p-6 rounded-md flex flex-col gap-6 shadow-lg lg:shadow-none lg:z-0 lg:gap-8 lg:w-1/2 lg:pt-10 ">
+        <div className="z-10 absolute inset-0 top-24 lg:static h-fit lg:h-full  bg-white lg:bg-inherit mx-4 p-6 rounded-md flex flex-col gap-6 shadow-lg lg:shadow-none lg:z-0 lg:gap-8 lg:w-1/2 lg:pt-10 ">
           {step}
-          <div className="mt-auto flex justify-between">
-            <BackButton handleClick={back} />
-            <NextButton handleClick={next} />
-          </div>
-        </main>
+
+          {currentStepIndex !== 4 ? (
+            <div className="hidden mt-auto lg:flex justify-between">
+              <StepButtons
+                isLastStep={isLastStep}
+                isFirstStep={isFirstStep}
+                next={next}
+                back={back}
+              />
+            </div>
+          ) : null}
+        </div>
       </div>
+
       <div className="absolute lg:hidden bottom-0 bg-white w-full flex  justify-between p-8">
-        {!isFirstStep && !isLastStep ? (
-          <BackButton handleClick={back} />
-        ) : (
-          <div></div>
-        )}
-
-        {!isLastStep ? <NextButton handleClick={next} /> : null}
+        <StepButtons
+          isLastStep={isLastStep}
+          isFirstStep={isFirstStep}
+          next={next}
+          back={back}
+        />
       </div>
-    </div>
-  );
-}
-
-function BackButton({ handleClick }: { handleClick: () => void }) {
-  return (
-    <button type="button" className="text-cool-gray" onClick={handleClick}>
-      Go back
-    </button>
-  );
-}
-
-function NextButton({ handleClick }: { handleClick: () => void }) {
-  return (
-    <button
-      type="button"
-      className="bg-marine-blue text-white px-6 py-3 rounded-md font-bold"
-      onClick={handleClick}
-    >
-      Next Step
-    </button>
+    </main>
   );
 }

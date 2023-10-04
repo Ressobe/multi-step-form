@@ -1,6 +1,6 @@
 export default function Message() {
   return (
-    <div className="flex flex-col justify-center items-center text-center gap-3">
+    <div className="flex h-full flex-col justify-center items-center text-center gap-3">
       <img src="assets/images/icon-thank-you.svg" className="w-16" />
       <h1 className="text-2xl text-marine-blue font-bold">Thank you!</h1>
       <p className="text-cool-gray font-thin">

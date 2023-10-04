@@ -18,7 +18,7 @@ export default function SelectPlan() {
 
   const durationNotation = useMemo(
     () => (subscriptionDuration === "monthly" ? "mo" : "yr"),
-    [subscriptionDuration]
+    [subscriptionDuration],
   );
 
   useEffect(() => {
@@ -70,20 +70,22 @@ export default function SelectPlan() {
         </p>
       </div>
 
-      <div className="grid grid-rows-3 gap-2">
+      <div className="grid grid-rows-3 gap-2 lg:grid-cols-3 lg:grid-rows-1 lg:gap-4 lg:py-10">
         {["arcade", "advanced", "pro"].map((item, idx) => {
           return (
             <button
               key={idx}
-              className={`flex gap-4 p-3 border rounded-lg ${checkActiveStyle(
-                item
+              className={`flex lg:flex-col lg:justify-between lg:gap-12 gap-4 p-3 border rounded-lg ${checkActiveStyle(
+                item,
               )} `}
               onClick={() => setCurrentPlan(item as PlanType)}
             >
               <img src={`assets/images/icon-${item}.svg`} className="w-12" />
 
               <div className="text-left">
-                <h2 className="text-marine-blue">{capitalize(item)}</h2>
+                <h2 className="text-marine-blue lg:text-xl">
+                  {capitalize(item)}
+                </h2>
                 <p className="text-cool-gray text-sm font-thin">
                   ${prices[item as PlanType]}/{durationNotation}
                 </p>
