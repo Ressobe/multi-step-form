@@ -9,12 +9,12 @@ import Sidebar from "./components/Sidebar";
 import StepButtons from "./components/StepButtons";
 
 export default function App() {
-  const { currentStepIndex, step, isFirstStep, isLastStep, goTo, back, next } =
+  const { currentStepIndex, step, isFirstStep, isLastStep, back, next } =
     useMultistepForm([
       <YourInfo key="your-info" />,
       <SelectPlan key="select-plan" />,
       <AddOns key="add-ons" />,
-      <Summary key="summary" goToSelectPlan={() => goTo(1)} />,
+      <Summary key="summary" />,
       <Message key="message" />,
     ]);
 
