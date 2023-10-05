@@ -8,6 +8,9 @@ export default function YourInfo({
   name,
   email,
   phone,
+  nameError,
+  emailError,
+  phoneError,
   updateForm,
 }: StepProps) {
   return (
@@ -21,15 +24,21 @@ export default function YourInfo({
         </p>
       </div>
       <div className="flex flex-col">
-        <label htmlFor="name">
+        <label htmlFor="name" className="inline-flex justify-between">
           <span className="text-marine-blue font-thin">Name</span>
-          <span className="text-red-600" data-input-error="email"></span>
+          <span className="text-red-600" data-input-error="email">
+            {nameError ? "This field is required" : ""}
+          </span>
         </label>
         <input
           type="text"
           placeholder="e.g. Stephen King"
-          className="outline-none border py-3 px-4 mt-2 rounded-md focus:border-purplish-blue"
-          onChange={(e) => updateForm({ name: e.target.value })}
+          className={`outline-none border py-3 px-4 mt-2 rounded-md focus:border-purplish-blue ${
+            nameError ? "border-red-600" : ""
+          }`}
+          onChange={(e) => {
+            updateForm({ name: e.target.value, nameError: false });
+          }}
           value={name}
           name="name"
           autoComplete="name"
@@ -38,15 +47,21 @@ export default function YourInfo({
         />
       </div>
       <div className="flex flex-col">
-        <label htmlFor="email">
+        <label htmlFor="email" className="inline-flex justify-between">
           <span className="text-marine-blue font-thin">Email Address</span>
-          <span className="text-red-600" data-input-error="email"></span>
+          <span className="text-red-600" data-input-error="email">
+            {emailError ? "This field is required" : ""}
+          </span>
         </label>
         <input
           type="email"
           placeholder="e.g. stephenking@lorem.com"
-          className="outline-none border py-3 px-4 mt-2 rounded-md focus:border-purplish-blue"
-          onChange={(e) => updateForm({ email: e.target.value })}
+          className={`outline-none border py-3 px-4 mt-2 rounded-md focus:border-purplish-blue ${
+            emailError ? "border-red-600" : ""
+          }`}
+          onChange={(e) => {
+            updateForm({ email: e.target.value, emailError: false });
+          }}
           value={email}
           name="email"
           autoComplete="email"
@@ -55,15 +70,19 @@ export default function YourInfo({
         />
       </div>
       <div className="flex flex-col">
-        <label htmlFor="phone">
+        <label htmlFor="phone" className="inline-flex justify-between">
           <span className="text-marine-blue font-thin">Phone Number</span>
-          <span className="text-red-600"></span>
+          <span className="text-red-600" data-input-error="email">
+            {phoneError ? "This field is required" : ""}
+          </span>
         </label>
         <input
           type="tel"
           placeholder="e.g. +1 234 567 890"
           className="outline-none border py-3 px-4 mt-2 rounded-md focus:border-purplish-blue"
-          onChange={(e) => updateForm({ phone: e.target.value })}
+          onChange={(e) =>
+            updateForm({ phone: e.target.value, phoneError: false })
+          }
           value={phone}
           name="phone"
           autoComplete="phone"

@@ -51,6 +51,9 @@ export type FormItems = {
   name: string;
   email: string;
   phone: string;
+  nameError: boolean;
+  emailError: boolean;
+  phoneError: boolean;
   plan: PlanType;
   planLength: "monthly" | "yearly";
   addOns: [boolean, boolean, boolean];
@@ -60,6 +63,9 @@ const initialValues: FormItems = {
   name: "",
   email: "",
   phone: "",
+  nameError: false,
+  emailError: false,
+  phoneError: false,
   plan: "Arcade",
   planLength: "monthly",
   addOns: [false, false, false],
@@ -102,10 +108,9 @@ export default function App() {
 
   const handleNext = () => {
     if (currentStepIndex === 0) {
-      if (!formData.name || !formData.email || !formData.phone) {
-        return;
-      }
+      console.log("hi1");
     }
+
     next();
   };
 
