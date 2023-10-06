@@ -15,8 +15,8 @@ export default {
         alabaster: "hsl(231, 100%, 99%)",
       },
       backgroundImage: {
-        "sidebar-desktop": "url('assets/images/bg-sidebar-desktop.svg')",
-        "sidebar-mobile": "url('assets/images/bg-sidebar-mobile.svg')",
+        "sidebar-desktop": "url('public/images/bg-sidebar-desktop.svg')",
+        "sidebar-mobile": "url('public/images/bg-sidebar-mobile.svg')",
       },
       fontFamily: {
         ubuntu: "'Ubuntu'",
