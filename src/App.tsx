@@ -51,9 +51,6 @@ export type FormItems = {
   name: string;
   email: string;
   phone: string;
-  nameError: boolean;
-  emailError: boolean;
-  phoneError: boolean;
   plan: PlanType;
   planLength: "monthly" | "yearly";
   addOns: [boolean, boolean, boolean];
@@ -63,16 +60,26 @@ const initialValues: FormItems = {
   name: "",
   email: "",
   phone: "",
-  nameError: false,
-  emailError: false,
-  phoneError: false,
   plan: "Arcade",
   planLength: "monthly",
   addOns: [false, false, false],
 };
 
+export type inputsErrors = {
+  nameError: boolean;
+  emailError: boolean;
+  phoneError: boolean;
+};
+
+const initialErrors: inputsErrors = {
+  nameError: false,
+  emailError: false,
+  phoneError: false,
+};
+
 export default function App() {
   const [formData, setFormData] = useState(initialValues);
+  const [inputsStatus, setInputsStatus] = useState(initialErrors);
 
   const updateForm = (fieldToUpdate: Partial<FormItems>) =>
     setFormData((_) => ({ ...formData, ...fieldToUpdate }));
@@ -94,7 +101,15 @@ export default function App() {
 
   const { currentStepIndex, step, isFirstStep, isLastStep, back, next } =
     useMultistepForm([
-      <YourInfo {...formData} updateForm={updateForm} key="your-info" />,
+      <YourInfo
+        {...formData}
+        nameError={inputsStatus.nameError}
+        emailError={inputsStatus.emailError}
+        phoneError={inputsStatus.phoneError}
+        updateForm={updateForm}
+        updateError={setInputsStatus}
+        key="your-info"
+      />,
       <SelectPlan {...formData} updateForm={updateForm} key="select-plan" />,
       <AddOns {...formData} updateForm={updateForm} key="add-ons" />,
       <Summary
@@ -107,41 +122,95 @@ export default function App() {
     ]);
 
   const handleNext = () => {
+    let isError = false;
     if (currentStepIndex === 0) {
-      console.log("hi1");
+      if (formData.name.trim() === "") {
+        setInputsStatus((prev) => ({ ...prev, nameError: true }));
+        isError = true;
+      }
+      if (formData.email.trim() === "") {
+        setInputsStatus((prev) => ({ ...prev, emailError: true }));
+        isError = true;
+      }
+      if (formData.phone.trim() === "") {
+        setInputsStatus((prev) => ({ ...prev, phoneError: true }));
+        isError = true;
+      }
     }
+
+    if (isError) return;
 
     next();
   };
 
   return (
     <main className="bg-light-blue lg:h-[100dvh] lg:flex justify-center items-center">
-      <div className="lg:flex flex-row  gap-20  lg:bg-white lg:shadow-lg  lg:h-3/4 overflow-y-scroll  lg:w-[950px] lg:rounded-md lg:p-5 ">
+      <div className="lg:flex flex-row  gap-20  lg:bg-white lg:shadow-lg  lg:h-[40rem] overflow-y-scroll  lg:w-[950px] lg:rounded-md lg:p-5 ">
         <Sidebar activeIndex={currentStepIndex} />
         <div className="z-10 absolute inset-0 top-24 lg:static h-fit lg:h-full  bg-white lg:bg-inherit mx-4 p-6 rounded-md flex flex-col gap-6 shadow-lg lg:shadow-none lg:z-0 lg:gap-8 lg:w-1/2 lg:pt-10 ">
           {step}
 
-          {currentStepIndex !== 4 ? (
-            <div className="hidden mt-auto lg:flex justify-between">
-              <StepButtons
-                isLastStep={isLastStep}
-                isFirstStep={isFirstStep}
-                next={handleNext}
-                back={back}
-              />
-            </div>
-          ) : null}
+          <div className="hidden mt-auto lg:flex justify-between">
+            <StepButtonsContainer
+              handleNext={handleNext}
+              back={back}
+              isFirstStep={isFirstStep}
+              isLastStep={isLastStep}
+              currentStepIndex={currentStepIndex}
+            />
+          </div>
         </div>
       </div>
 
       <div className="absolute lg:hidden bottom-0 bg-white w-full flex  justify-between p-8">
-        <StepButtons
-          isLastStep={isLastStep}
-          isFirstStep={isFirstStep}
-          next={handleNext}
+        <StepButtonsContainer
+          handleNext={handleNext}
           back={back}
+          isFirstStep={isFirstStep}
+          isLastStep={isLastStep}
+          currentStepIndex={currentStepIndex}
         />
       </div>
     </main>
+  );
+}
+
+type StepButtonsContainerProps = {
+  currentStepIndex: number;
+  isLastStep: boolean;
+  isFirstStep: boolean;
+  handleNext: () => void;
+  back: () => void;
+};
+
+function StepButtonsContainer({
+  currentStepIndex,
+  isLastStep,
+  isFirstStep,
+  handleNext,
+  back,
+}: StepButtonsContainerProps) {
+  return (
+    <>
+      {currentStepIndex === 3 ? (
+        <StepButtons
+          isLastStep={isLastStep}
+          isFirstStep={isFirstStep}
+          classNameNext="bg-purplish-blue hover:bg-opacity-80 active:bg-opacity-70 text-white px-6 py-3 rounded-md font-bold"
+          textNext="Confirm"
+          next={handleNext}
+          back={back}
+        />
+      ) : (
+        <StepButtons
+          isLastStep={isLastStep}
+          isFirstStep={isFirstStep}
+          classNameNext="bg-marine-blue hover:bg-opacity-80 active:bg-opacity-70 text-white px-6 py-3 rounded-md font-bold"
+          textNext="Next step"
+          next={handleNext}
+          back={back}
+        />
+      )}
+    </>
   );
 }

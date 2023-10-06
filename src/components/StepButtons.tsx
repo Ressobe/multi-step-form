@@ -1,6 +1,8 @@
 type StepButtonsProps = {
   isFirstStep: boolean;
   isLastStep: boolean;
+  classNameNext: string;
+  textNext: string;
   back: () => void;
   next: () => void;
 };
@@ -8,6 +10,8 @@ type StepButtonsProps = {
 export default function StepButtons({
   isFirstStep,
   isLastStep,
+  classNameNext,
+  textNext,
   back,
   next,
 }: StepButtonsProps) {
@@ -19,7 +23,13 @@ export default function StepButtons({
         <div></div>
       )}
 
-      {!isLastStep ? <NextButton handleClick={next} /> : null}
+      {!isLastStep ? (
+        <NextButton
+          className={classNameNext}
+          text={textNext}
+          handleClick={next}
+        />
+      ) : null}
     </>
   );
 }
@@ -32,14 +42,16 @@ function BackButton({ handleClick }: { handleClick: () => void }) {
   );
 }
 
-function NextButton({ handleClick }: { handleClick: () => void }) {
+type NextButtonProps = {
+  handleClick: () => void;
+  className: string;
+  text: string;
+};
+
+function NextButton({ handleClick, className, text }: NextButtonProps) {
   return (
-    <button
-      type="button"
-      className="bg-marine-blue text-white px-6 py-3 rounded-md font-bold"
-      onClick={handleClick}
-    >
-      Next Step
+    <button type="button" className={className} onClick={handleClick}>
+      {text}
     </button>
   );
 }

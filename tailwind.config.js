@@ -11,7 +11,7 @@ export default {
         "strawberry-red": "hsl(354, 84%, 57%)",
         "cool-gray": "hsl(231, 11%, 63%)",
         "light-gray": "hsl(229, 24%, 87%)",
-        magnolia: "hsl(217, 100%, 97%)",
+        magnolia: "hsla(217, 100%, 97%, 0.8)",
         alabaster: "hsl(231, 100%, 99%)",
       },
       backgroundImage: {

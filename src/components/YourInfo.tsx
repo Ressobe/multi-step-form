@@ -1,7 +1,11 @@
-import { FormItems } from "../App";
+import { FormItems, inputsErrors } from "../App";
 
 type StepProps = FormItems & {
   updateForm: (item: Partial<FormItems>) => void;
+  updateError: React.Dispatch<React.SetStateAction<inputsErrors>>;
+  nameError: boolean;
+  emailError: boolean;
+  phoneError: boolean;
 };
 
 export default function YourInfo({
@@ -12,6 +16,7 @@ export default function YourInfo({
   emailError,
   phoneError,
   updateForm,
+  updateError,
 }: StepProps) {
   return (
     <>
@@ -37,7 +42,11 @@ export default function YourInfo({
             nameError ? "border-red-600" : ""
           }`}
           onChange={(e) => {
-            updateForm({ name: e.target.value, nameError: false });
+            updateForm({ name: e.target.value });
+            updateError((prev: inputsErrors) => ({
+              ...prev,
+              nameError: false,
+            }));
           }}
           value={name}
           name="name"
@@ -60,7 +69,11 @@ export default function YourInfo({
             emailError ? "border-red-600" : ""
           }`}
           onChange={(e) => {
-            updateForm({ email: e.target.value, emailError: false });
+            updateForm({ email: e.target.value });
+            updateError((prev: inputsErrors) => ({
+              ...prev,
+              emailError: false,
+            }));
           }}
           value={email}
           name="email"
@@ -79,10 +92,13 @@ export default function YourInfo({
         <input
           type="tel"
           placeholder="e.g. +1 234 567 890"
-          className="outline-none border py-3 px-4 mt-2 rounded-md focus:border-purplish-blue"
-          onChange={(e) =>
-            updateForm({ phone: e.target.value, phoneError: false })
-          }
+          className={`outline-none border py-3 px-4 mt-2 rounded-md focus:border-purplish-blue ${
+            phoneError ? "border-red-600" : ""
+          }`}
+          onChange={(e) => {
+            updateForm({ phone: e.target.value });
+            updateError((prev) => ({ ...prev, phoneError: false }));
+          }}
           value={phone}
           name="phone"
           autoComplete="phone"
