@@ -2,7 +2,7 @@ export default function Sidebar({ activeIndex }: { activeIndex: number }) {
   const steps = ["Your info", "Select plan", "Add-ons", "Summary"];
 
   return (
-    <nav className="z-0 pb-10 bg-sidebar-mobile lg:bg-sidebar-desktop bg-cover h-36  flex justify-center items-center gap-6 lg:flex-col lg:h-full lg:p-10 lg:pr-20 lg:items-start lg:justify-start lg:rounded-md ">
+    <nav className="z-0 pb-10 bg-[url('/src/assets/images/bg-sidebar-mobile.svg')] lg:bg-[url('/src/assets/images/bg-sidebar-desktop.svg')] bg-cover h-36  flex justify-center items-center gap-6 lg:flex-col lg:h-full lg:p-10 lg:pr-20 lg:items-start lg:justify-start lg:rounded-md ">
       {steps.map((step, index) => {
         const isActive = activeIndex === index;
 

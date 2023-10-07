@@ -1,8 +1,14 @@
 import { FormItems, PlanType, planOptions } from "../App";
 
+import arcadeLogo from "../assets/images/icon-arcade.svg";
+import advancedLogo from "../assets/images/icon-advanced.svg";
+import proLogo from "../assets/images/icon-pro.svg";
+
 type StepProps = FormItems & {
   updateForm: (item: Partial<FormItems>) => void;
 };
+
+const logos = [arcadeLogo, advancedLogo, proLogo];
 
 export default function SelectPlan({
   plan,
@@ -38,7 +44,7 @@ export default function SelectPlan({
               }`}
               onClick={() => updateForm({ plan: capitalize(item) as PlanType })}
             >
-              <img src={`assets/images/icon-${item}.svg`} className="w-12" />
+              <img src={logos[idx]} className="w-12" />
 
               <div className="text-left">
                 <h2 className="text-marine-blue lg:text-xl">
